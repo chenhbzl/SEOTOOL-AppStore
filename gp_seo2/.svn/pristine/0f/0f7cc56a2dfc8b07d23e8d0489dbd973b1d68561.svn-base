@@ -1,0 +1,39 @@
+/* 
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+jQuery(function() {
+    jQuery("#startdate").datepicker({
+        maxDate : '+0',
+        dateFormat: 'yy-mm-dd'
+    });
+    $("#enddate").datepicker({
+        minDate : $('#startDate').val(),
+        dateFormat: 'yy-mm-dd',
+        maxDate : '+0',
+        onSelect : function(dateText, inst) {
+                    get_keyword();
+        }
+    });
+
+});
+
+function get_keyword() {
+    $.ajax({
+        //        url : "http://localhost:8888/googleplay_seo/index.php/compete/get_keyword",
+        //		url : "http://ec2-54-251-4-64.ap-southeast-1.compute.amazonaws.com/googleplay_seo/index.php/compete/get_keyword",
+        url : "index.php?r=appCode/keywordInfo",
+	
+        type : "POST",
+        data : {
+            'startdate' : $('#startdate').val(),
+            'enddate' : $('#enddate').val()
+        },
+        dataType : "json",
+        success : function(result) {
+            console.log(result);
+//            google.setOnLoadCallback(statistics(result));
+        }
+    });
+}
